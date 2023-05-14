@@ -1,10 +1,9 @@
 /** @format */
-
-const path = require("path");
 const fs = require("fs/promises");
+const path = require("path");
 
 const contactsPath = path.join(__dirname, "..", "db", "contacts.json");
-console.log(contactsPath);
+// console.log(contactsPath);
 
 class FileOperishins {
   constructor(contactsPath) {
@@ -22,11 +21,11 @@ class FileOperishins {
     }
   }
   async listContacts() {
-    try {
-      return await fs.readFile(this.contactsPath, "utf-8");
-    } catch (error) {
-      console.log(error.message);
-    }
+    console.log("read file contacts.json");
+    return await fs.promises
+      .readFile(this.contactsPath, "utf8")
+      .then(JSON.parse)
+      .catch(console.error);
   }
   async getContactById(contactId) {
     try {
@@ -70,6 +69,6 @@ const file = new FileOperishins(contactsPath);
 module.exports = {
   listContacts,
   getContactById,
-  removeContact,
   addContact,
+  removeContact,
 };

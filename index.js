@@ -1,3 +1,4 @@
+/** @format */
 
 const contactsModule = require("./contacts");
 
@@ -14,40 +15,39 @@ program.parse(process.argv);
 
 const argv = program.opts();
 
-function invokeAction({ action, id, name, email, phone }) {
+async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
       const contacts = await contactsModule.listContacts();
       console.table(contacts);
-      console.log(contacts)
-      console.log('Hello table')
+      console.log(contacts);
+      console.log("Hello table");
       break;
 
     case "get":
-        {
-            console.log("switch get item");
-            const contact = await contactsModule.getContactById(id);
-            console.table(contact);
-          }
+      {
+        console.log("switch get item");
+        const contact = await contactsModule.getContactById(id);
+        console.table(contact);
+      }
       break;
 
-    case "add":
-        {
-            const contact = await contactsModule.addContact(name, email, phone);
-            if (!contact)
-              return console.log(
-                "Contact has not been added. Please, complete name, email and phone"
-              );
-            console.log(`Contact with name: ${name} has been added.`);
-            console.table(contact);
-            break;
-          }
+    case "add": {
+      const contact = await contactsModule.addContact(name, email, phone);
+      if (!contact)
+        return console.log(
+          "Contact has not been added. Please, complete name, email and phone"
+        );
+      console.log(`Contact with name: ${name} has been added.`);
+      console.table(contact);
+      break;
+    }
 
     case "remove":
-        const contact = await contactsModule.removeContact(id);
-        if (!contact) return console.log(`Not found id: ${id}.`);
-        console.log(`Contact with id: ${id} has been removed.`);
-        console.table(contact);
+      const contact = await contactsModule.removeContact(id);
+      if (!contact) return console.log(`Not found id: ${id}.`);
+      console.log(`Contact with id: ${id} has been removed.`);
+      console.table(contact);
       break;
 
     default:
