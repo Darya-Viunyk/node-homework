@@ -1,6 +1,9 @@
 /** @format */
+// const path = require("path");
 
-const contactsModule = require("./contacts");
+// const contactsPath = path.join(__dirname, "..", "db", "contacts.json");
+const { FileOperishins } = require("./contacts");
+const contactsModule = new FileOperishins();
 
 const { Command } = require("commander");
 const program = new Command();
@@ -18,9 +21,10 @@ const argv = program.opts();
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
+      // console.log(contactsModule);
       const contacts = await contactsModule.listContacts();
       console.table(contacts);
-      console.log(contacts);
+      // console.log(contacts);
       console.log("Hello table");
       break;
 
@@ -33,7 +37,11 @@ async function invokeAction({ action, id, name, email, phone }) {
       break;
 
     case "add": {
-      const contact = await contactsModule.addContact(name, email, phone);
+      const contact = await contactsModule.addContact({
+        name,
+        email,
+        phone,
+      });
       if (!contact)
         return console.log(
           "Contact has not been added. Please, complete name, email and phone"
@@ -54,5 +62,5 @@ async function invokeAction({ action, id, name, email, phone }) {
       console.warn("\x1B[31m Unknown action type!");
   }
 }
-
+// console.log(argv);
 invokeAction(argv);

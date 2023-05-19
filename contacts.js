@@ -2,13 +2,10 @@
 const fs = require("fs/promises");
 const path = require("path");
 
-const contactsPath = path.join(__dirname, "..", "db", "contacts.json");
-// console.log(contactsPath);
+// const nanoid = require("nanoid");
 
 class FileOperishins {
-  constructor(contactsPath) {
-    this.contactsPath = contactsPath;
-  }
+  contactsPath = path.join(__dirname, "db", "contacts.json");
 
   async writeContacts(data) {
     try {
@@ -22,7 +19,7 @@ class FileOperishins {
   }
   async listContacts() {
     console.log("read file contacts.json");
-    return await fs.promises
+    return await fs
       .readFile(this.contactsPath, "utf8")
       .then(JSON.parse)
       .catch(console.error);
@@ -38,18 +35,22 @@ class FileOperishins {
       console.log(error.message);
     }
   }
-  async addContact(data) {
+  async addContact({ name, email, phone }) {
     try {
       const list = await this.listContacts();
-      const obj = JSON.parse(list);
+      const newArray = { id: Date.now(), name, email, phone };
 
-      const newArray = [...obj, data];
-      await fs.writeFile(this.contactsPath, JSON.stringify(newArray, null, 2));
+      list.push(newArray);
+
+      await fs.writeFile(this.contactsPath, JSON.stringify(list, null, 2));
+      return newArray;
     } catch (error) {
       console.log(error.message);
     }
   }
+
   async removeContact(contactId) {
+    const data = await this.listContacts();
     const contactIndex = data.findIndex((item) => {
       return item.id === contactId;
     });
@@ -64,11 +65,7 @@ class FileOperishins {
     }
   }
 }
-const file = new FileOperishins(contactsPath);
 
-module.exports = {
-  listContacts,
-  getContactById,
-  addContact,
-  removeContact,
-};
+// const file = new FileOperishins(contactsPath);
+
+module.exports = { FileOperishins };
