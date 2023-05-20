@@ -13,8 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^10.0.1",
-    "cross-env": "^7.0.3",
-    "nanoid": "^4.0.2"
+    "cross-env": "^7.0.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

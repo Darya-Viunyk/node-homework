@@ -2,8 +2,6 @@
 const fs = require("fs/promises");
 const path = require("path");
 
-// const nanoid = require("nanoid");
-
 class FileOperishins {
   contactsPath = path.join(__dirname, "db", "contacts.json");
 
@@ -17,13 +15,17 @@ class FileOperishins {
       console.log(error.message);
     }
   }
+
   async listContacts() {
-    console.log("read file contacts.json");
-    return await fs
-      .readFile(this.contactsPath, "utf8")
-      .then(JSON.parse)
-      .catch(console.error);
+    try {
+      const data = await fs.readFile(this.contactsPath, "utf8");
+      const contacts = JSON.parse(data);
+      return contacts;
+    } catch (error) {
+      console.log(error.message);
+    }
   }
+
   async getContactById(contactId) {
     try {
       const contacts = await this.listContacts();
@@ -67,5 +69,4 @@ class FileOperishins {
 }
 
 // const file = new FileOperishins(contactsPath);
-
 module.exports = { FileOperishins };
