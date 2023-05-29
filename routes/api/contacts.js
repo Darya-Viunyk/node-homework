@@ -3,13 +3,13 @@
 const express = require("express");
 
 const models = require("../../models/contacts");
-
-const Joi = require("joi");
-const contactShema = Joi.object({
-  name: Joi.string().min(2).required(),
-  phone: Joi.string().min(2).required(),
-  email: Joi.string().email().required(),
-});
+const contactShema = require("../../schemas/joi");
+// const Joi = require("joi");
+// const contactShema = Joi.object({
+//   name: Joi.string().min(2).required(),
+//   phone: Joi.string().min(2).required(),
+//   email: Joi.string().email().required(),
+// });
 const router = express.Router();
 
 const getError = (status = 400, message = "") => {
