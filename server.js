@@ -2,7 +2,7 @@
 // YrffHgFXVzEVfGWe
 
 const mongoose = require("mongoose");
-const { DB_HOST, PORT = 3000 } = process.env;
+const { DB_HOST, PORT } = process.env;
 const app = require("./app");
 
 mongoose
