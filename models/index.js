@@ -1,6 +1,6 @@
 /** @format */
 
-const { Contact } = require("./contact");
+const { Contact } = require("./contacts");
 
 module.exports = {
   Contact,

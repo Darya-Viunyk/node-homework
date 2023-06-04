@@ -37,7 +37,7 @@ const favoriteShema = Joi.object({
   }),
 });
 
-const Contact = model("contact", contactSchema);
+const Contact = model("contacts", contactSchema);
 
 module.exports = {
   Contact,
