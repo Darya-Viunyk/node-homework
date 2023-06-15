@@ -2,26 +2,34 @@
 
 const express = require("express");
 
-const { auth, upload, validation, ctrlWrapper } = require("../../middlewares");
-const { users: ctrl } = require("../../controllers");
-
-const { joiSignUpSchema, joiLoginSchema } = require("../../models/user");
-
 const router = express.Router();
+const { users: ctrl } = require("../../controllers");
+const { auth, ctrlWrraper, validation, upload } = require("../../middlewares");
+const {
+  joiSignUpSchema,
+  joiSignInSchema,
+  joiSubscriptionSchema,
+} = require("../../models/user");
 
-router.post("/signup", validation(joiSignUpSchema), ctrlWrapper(ctrl.signup));
+router.post("/signup", validation(joiSignUpSchema), ctrlWrraper(ctrl.signUp));
 
-router.post("/login", validation(joiLoginSchema), ctrlWrapper(ctrl.login));
+router.post("/signin", validation(joiSignInSchema), ctrlWrraper(ctrl.signIn));
 
-router.get("/logout", auth, ctrlWrapper(ctrl.logout));
+router.get("/logout", auth, ctrlWrraper(ctrl.logOut));
 
-router.get("/current", auth, ctrlWrapper(ctrl.getCurrent));
+router.patch(
+  "/subscription",
+  auth,
+  validation(joiSubscriptionSchema),
+  ctrlWrraper(ctrl.updateSubscription)
+);
 
 router.patch(
   "/avatars",
   auth,
   upload.single("avatar"),
-  ctrlWrapper(ctrl.updateAvatar)
+  // validation(joiAvatarSchema),
+  ctrlWrraper(ctrl.avatarUpdate)
 );
 
 module.exports = router;
