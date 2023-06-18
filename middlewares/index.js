@@ -1,14 +1,14 @@
 /** @format */
+const validation = require("./validation");
+const ctrlWrraper = require("./ctrlWrraper");
+const auth = require("./auth");
+const upload = require("./upload");
+const isValidId = require("./isValidId");
 
-const ctrlWrraper = (ctrl) => {
-  const func = async (req, res, next) => {
-    try {
-      await ctrl(req, res, next);
-    } catch (error) {
-      next(error);
-    }
-  };
-  return func;
+module.exports = {
+  validation,
+  ctrlWrraper,
+  auth,
+  upload,
+  isValidId,
 };
-
-module.exports = ctrlWrraper;
